@@ -1,6 +1,6 @@
 import java.awt.Color;
 import java.awt.Font;
-
+import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
@@ -133,16 +133,19 @@ public class Game implements KeyListener {
 				temp = temp + 1;
 				System.out.println("userText = " + userText + ", score = " + score + ", temp = " + temp);
 			}
-
 			// kelimeleri scrolla
-			int pos = 50; // her satır atlaması için offset
+			int pos = 0;
 			// kelimenin yerini bul
 			for (int i = 0; i < temp; i++) {
 				pos += randomWords[i].length() + 1;
 			}
 			try {
+				// kelime görüşünü bul
+				Rectangle view = txtAr.modelToView2D(pos).getBounds();
+				// satır satır atlamak için offset ekle
+				view.translate(0, 50);
 				// kelimeyi görüşe scrolla
-				txtAr.scrollRectToVisible(txtAr.modelToView2D(pos).getBounds());
+				txtAr.scrollRectToVisible(view);
 			} catch (BadLocationException e1) {
 				e1.printStackTrace();
 			}
