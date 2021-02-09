@@ -1,4 +1,3 @@
-
 import java.awt.Color;
 import java.awt.Font;
 
@@ -13,6 +12,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.ScrollPaneConstants;
+import javax.swing.text.BadLocationException;
 import javax.swing.text.DefaultCaret;
 
 public class Game implements KeyListener {
@@ -27,7 +27,8 @@ public class Game implements KeyListener {
 	private int temp;
 	private int score;
 
-// https://stackoverflow.com/questions/9399823/change-specific-text-color-in-java   buna bak 
+	// https://stackoverflow.com/questions/9399823/change-specific-text-color-in-java
+	// buna bak
 	public Game() {
 		frame = new JFrame();
 
@@ -46,25 +47,25 @@ public class Game implements KeyListener {
 
 		frame.setLayout(null);
 
-		temp = 0; // KAÇINCI KELİMEDE OLDUĞUNU GÖSTERİYOR
-		score = 0; // DOĞRU YAZILANLARI SAYIYOR
+		temp = 0; // KAÃ‡INCI KELÄ°MEDE OLDUÄUNU GÃ–STERÄ°YOR
+		score = 0; // DOÄRU YAZILANLARI SAYIYOR
 
-		words = new String[] { "bir", "bu", "ne", "ve", "mi", "için", "çok", "ben", "o", "evet", "var", "ama", "mı",
-				"değil", "da", "hayır", "sen", "şey", "daha", "kadar", "seni", "beni", "iyi", "tamam", "onu", "bunu",
-				"gibi", "yok", "benim", "her", "sana", "ki", "sadece", "neden", "burada", "senin", "ya", "zaman", "hiç",
-				"şimdi", "nasıl", "sonra", "olduğunu", "en", "mu", "mısın", "hadi", "şu", "öyle", "güzel", "biraz",
-				"musun", "önce", "iyi", "lüften", "ona", "bak", "böyle", "öyle", "oldu", "hey", "istiyorum", "geri",
-				"onun", "bile", "gerçekten", "artık", "kim", "eğer", "bay", "yani", "çünkü", "biliyorum", "doğru",
-				"büyük", "buraya", "peki", "başka", "belki", "tanrım", "olarak", "tek", "efendim", "biri", "haydi",
-				"olur", "et", "olacak", "olan", "adam", "işte", "merhaba", "sanırım", "teşekkürler", "orada", "nerede",
-				"biz", "demek", "hiçbir", "yardım", "ederim", "bilmiyorum", "gün", "gece", "in", "fazla", "bütün",
-				"harika", "yeni", "bunun", "iki", "gel", "biliyor", "tüm", "ile", "kötü", "oh", "olsun", "küçük", "tam",
-				"ol", "son", "siz", "şeyler", "şeyi", "bayan", "hemen", "sorun", "size", "üzgünüm", "ver", "onları",
-				"lanet", "teşekkür", "git", "devam", "kız", "dostum", "pekala", "sizi", "gerek", "bizi", "dur",
-				"hakkında", "buna", "aynı", "oluyor", "kendi", "anne", "baba", "mısın", "diye", "iş", "kimse", "izin",
-				"asla", "hala", "tabi", "al", "seninle", "selam", "olabilir", "şunu", "benimle", "söyle", "para",
-				"bizim", "önemli", "yoksa", "içinde", "herkes", "ister", "değilim", "üç", "yüzden", "gidelim",
-				"gidelim", "dakika", "tekrar", "bırak", "vardı", "deniyorsun", "bakalım", "istiyorsun", "yapıyorsun",
+		words = new String[] { "bir", "bu", "ne", "ve", "mi", "iÃ§in", "Ã§ok", "ben", "o", "evet", "var", "ama", "mÄ±",
+				"deÄŸil", "da", "hayÄ±r", "sen", "ÅŸey", "daha", "kadar", "seni", "beni", "iyi", "tamam", "onu", "bunu",
+				"gibi", "yok", "benim", "her", "sana", "ki", "sadece", "neden", "burada", "senin", "ya", "zaman", "hiÃ§",
+				"ÅŸimdi", "nasÄ±l", "sonra", "olduÄŸunu", "en", "mu", "mÄ±sÄ±n", "hadi", "ÅŸu", "Ã¶yle", "gÃ¼zel", "biraz",
+				"musun", "Ã¶nce", "iyi", "lÃ¼ften", "ona", "bak", "bÃ¶yle", "Ã¶yle", "oldu", "hey", "istiyorum", "geri",
+				"onun", "bile", "gerÃ§ekten", "artÄ±k", "kim", "eÄŸer", "bay", "yani", "Ã§Ã¼nkÃ¼", "biliyorum", "doÄŸru",
+				"bÃ¼yÃ¼k", "buraya", "peki", "baÅŸka", "belki", "tanrÄ±m", "olarak", "tek", "efendim", "biri", "haydi",
+				"olur", "et", "olacak", "olan", "adam", "iÅŸte", "merhaba", "sanÄ±rÄ±m", "teÅŸekkÃ¼rler", "orada", "nerede",
+				"biz", "demek", "hiÃ§bir", "yardÄ±m", "ederim", "bilmiyorum", "gÃ¼n", "gece", "in", "fazla", "bÃ¼tÃ¼n",
+				"harika", "yeni", "bunun", "iki", "gel", "biliyor", "tÃ¼m", "ile", "kÃ¶tÃ¼", "oh", "olsun", "kÃ¼Ã§Ã¼k", "tam",
+				"ol", "son", "siz", "ÅŸeyler", "ÅŸeyi", "bayan", "hemen", "sorun", "size", "Ã¼zgÃ¼nÃ¼m", "ver", "onlarÄ±",
+				"lanet", "teÅŸekkÃ¼r", "git", "devam", "kÄ±z", "dostum", "pekala", "sizi", "gerek", "bizi", "dur",
+				"hakkÄ±nda", "buna", "aynÄ±", "oluyor", "kendi", "anne", "baba", "mÄ±sÄ±n", "diye", "iÅŸ", "kimse", "izin",
+				"asla", "hala", "tabi", "al", "seninle", "selam", "olabilir", "ÅŸunu", "benimle", "sÃ¶yle", "para",
+				"bizim", "Ã¶nemli", "yoksa", "iÃ§inde", "herkes", "ister", "deÄŸilim", "Ã¼Ã§", "yÃ¼zden", "gidelim",
+				"gidelim", "dakika", "tekrar", "bÄ±rak", "vardÄ±", "deniyorsun", "bakalÄ±m", "istiyorsun", "yapÄ±yorsun",
 				"hep", "onlar", "buradan", "geliyor" };
 
 		// LABELS
@@ -73,16 +74,16 @@ public class Game implements KeyListener {
 		wpmCounter.setBounds(30, 300, 100, 100);
 		frame.add(wpmCounter);
 
-		// KELİMELERİN OLDUĞU YER
+		// KELÄ°MELERÄ°N OLDUÄU YER
 		txtAr = new JTextArea(String.join(" ", wordRandomizer()), 2, 2);
 		txtAr.setEditable(false);
 		txtAr.setBounds(30, 30, 645, 100);
 		txtAr.setFont(new Font(Font.SERIF, Font.PLAIN, 32));
 		txtAr.setWrapStyleWord(true);
 		txtAr.setLineWrap(true);
-		
+
 		caret = (DefaultCaret) txtAr.getCaret();
-		caret.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);// işe yaramıyo lmao
+		caret.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);// iÅŸe yaramÄ±yo lmao
 
 		frame.add(txtAr);
 
@@ -93,7 +94,7 @@ public class Game implements KeyListener {
 		txtField.addKeyListener(this);
 		frame.add(txtField);
 
-		// BİR İŞE YARAMIYOR
+		// BÄ°R Ä°ÅE YARAMIYOR
 		scrollPane = new JScrollPane(txtAr, ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER,
 				ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 		scrollPane.setBounds(30, 30, 645, 100);
@@ -131,6 +132,19 @@ public class Game implements KeyListener {
 				System.out.println("hata");
 				temp = temp + 1;
 				System.out.println("userText = " + userText + ", score = " + score + ", temp = " + temp);
+			}
+
+			// kelimeleri scrolla
+			int pos = 50; // her satÄ±r atlamasÄ± iÃ§in offset
+			// kelimenin yerini bul
+			for (int i = 0; i < temp; i++) {
+				pos += randomWords[i].length() + 1;
+			}
+			try {
+				// kelimeyi gÃ¶rÃ¼ÅŸe scrolla
+				txtAr.scrollRectToVisible(txtAr.modelToView2D(pos).getBounds());
+			} catch (BadLocationException e1) {
+				e1.printStackTrace();
 			}
 		}
 
