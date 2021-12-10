@@ -196,7 +196,7 @@ public class Game implements KeyListener, ActionListener {
 //				System.out.println("userText = " + userText + ", score = " + score + ", temp = " + temp);
 			} else if (temp < randomWords.length - 1 && !(userText.equals(previous)) && second != 0) {
 				temp = temp + 1;
-//				System.out.println("hata");
+				System.out.println("hata");
 //				System.out.println("userText = " + userText + ", score = " + score + ", temp = " + temp);
 			}
 			// scroll the words
